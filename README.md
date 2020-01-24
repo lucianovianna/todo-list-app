@@ -3,4 +3,4 @@
 
 Features:
 
-![Todo-list-in-action](https://github.com/lucianovianna/todo-list-app/blob/master/gif-todo-list.gif =280x)
+<img src="https://github.com/lucianovianna/todo-list-app/blob/master/gif-todo-list.gif" alt="Todo List In Action" width="300"/>
