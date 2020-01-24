@@ -23,8 +23,8 @@ class HomePage extends StatefulWidget {
   HomePage() {
     items = [];
 
-    items.add(Item(title: "Item 1", done: false));
-    items.add(Item(title: "Item 2", done: true));
+    items.add(Item(title: "Tomar café", done: true));
+    items.add(Item(title: "Tomar banho", done: false));
   }
 
   @override
@@ -45,6 +45,12 @@ class _HomePageState extends State<HomePage> {
         ),
       );
       newTaskCtrl.clear();
+    });
+  }
+
+  void remove(int index) {
+    setState(() {
+      widget.items.removeAt(index);
     });
   }
 
@@ -72,14 +78,22 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext ctxt, int index) {
           final item = widget.items[index];
 
-          return CheckboxListTile(
-            title: Text(item.title),
+          return Dismissible(
+            child: CheckboxListTile(
+              title: Text(item.title),
+              value: item.done,
+              onChanged: (value) {
+                setState(() {
+                  item.done = value;
+                });
+              },
+            ),
             key: Key(item.title),
-            value: item.done,
-            onChanged: (value) {
-              setState(() {
-                item.done = value;
-              });
+            background: Container(
+              color: Colors.red.withOpacity(0.35),
+            ),
+            onDismissed: (direction) {
+              remove(index);
             },
           );
         },
