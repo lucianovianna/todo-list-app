@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'models/item.dart';
 
 void main() => runApp(App());
@@ -10,7 +12,7 @@ class App extends StatelessWidget {
       title: "Todo App",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
       home: HomePage(),
     );
@@ -45,13 +47,38 @@ class _HomePageState extends State<HomePage> {
         ),
       );
       newTaskCtrl.clear();
+      save();
     });
   }
 
   void remove(int index) {
     setState(() {
       widget.items.removeAt(index);
+      save();
     });
+  }
+
+  Future load() async {
+    var prefs = await SharedPreferences.getInstance();
+    var data = prefs.getString('data');
+
+    if (data != null) {
+      Iterable decoded = jsonDecode(data);
+      List<Item> result = decoded.map((i) => Item.fromJson(i)).toList();
+
+      setState(() {
+        widget.items = result;
+      });
+    }
+  }
+
+  save() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString('data', jsonEncode(widget.items));
+  }
+
+  _HomePageState() {
+    load();
   }
 
   @override
@@ -85,6 +112,7 @@ class _HomePageState extends State<HomePage> {
               onChanged: (value) {
                 setState(() {
                   item.done = value;
+                  save();
                 });
               },
             ),
@@ -101,7 +129,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: add,
         child: Icon(Icons.add),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.amber,
       ),
     );
   }
