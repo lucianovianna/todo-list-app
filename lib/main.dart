@@ -1,5 +1,7 @@
 // import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'app-state.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'models/item.dart';
 
@@ -14,7 +16,11 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      // home: HomePage(),
+      home: ChangeNotifierProvider<AppState>(
+        create: (_) => AppState(),
+        child: HomePage(),
+      ),
     );
   }
 }
@@ -81,11 +87,13 @@ class _HomePageState extends State<HomePage> {
   // }
 
   // _HomePageState() {
-  //   load();
+  //   appstate.load();
   // }
 
   @override
   Widget build(BuildContext context) {
+    final appstate = Provider.of<AppState>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
@@ -104,9 +112,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: widget.items.length,
+        // itemCount: widget.items.length,
+        itemCount: appstate.items.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          final item = widget.items[index];
+          // final item = widget.items[index];
+          final item = appstate.items[index];
 
           return Dismissible(
             child: CheckboxListTile(
@@ -115,7 +125,7 @@ class _HomePageState extends State<HomePage> {
               onChanged: (value) {
                 setState(() {
                   item.done = value;
-                  save();
+                  appstate.save();
                 });
               },
             ),
@@ -124,13 +134,15 @@ class _HomePageState extends State<HomePage> {
               color: Colors.red.withOpacity(0.35),
             ),
             onDismissed: (direction) {
-              remove(index);
+              appstate.remove(index);
             },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: add,
+        onPressed: () {
+          appstate.add();
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.amber,
       ),

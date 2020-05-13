@@ -13,26 +13,26 @@ class AppState with ChangeNotifier {
     await prefs.setString('data', jsonEncode(items));
   }
 
-  void add(String todoText) {
-    // if (newTaskCtrl.text.isEmpty) {
-    //   // newTaskCtrl.text.;
-    //   return;
-    // }
+  void add(var textCtrl) {
+    if (textCtrl.text.isEmpty) {
+      return;
+    }
 
     items.add(
-      Item(title: todoText, done: false),
+      Item(title: textCtrl.text, done: false),
     );
 
     notifyListeners();
-    // newTaskCtrl.clear();
-    // save();
+
+    textCtrl.clear();
+    save();
   }
 
   void remove(int index) {
     items.removeAt(index);
 
     notifyListeners();
-    // save();
+    save();
   }
 
   Future load() async {
