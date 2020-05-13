@@ -9,7 +9,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Todo App",
+      title: "Todo List",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -20,14 +20,14 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  var items = new List<Item>();
+  // var items = new List<Item>();
 
-  HomePage() {
-    items = [];
+  // HomePage() {
+  //   items = [];
 
-    items.add(Item(title: "Tomar café", done: true));
-    items.add(Item(title: "Tomar banho", done: false));
-  }
+  //   items.add(Item(title: "Tomar café", done: true));
+  //   items.add(Item(title: "Tomar banho", done: false));
+  // }
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,7 +37,10 @@ class _HomePageState extends State<HomePage> {
   var newTaskCtrl = TextEditingController();
 
   void add() {
-    if (newTaskCtrl.text.isEmpty) return;
+    if (newTaskCtrl.text.isEmpty) {
+      // newTaskCtrl.text.;
+      return;
+    }
 
     setState(() {
       widget.items.add(
