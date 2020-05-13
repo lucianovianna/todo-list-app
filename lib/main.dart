@@ -1,7 +1,7 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'models/item.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'models/item.dart';
 
 void main() => runApp(App());
 
@@ -36,53 +36,53 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var newTaskCtrl = TextEditingController();
 
-  void add() {
-    if (newTaskCtrl.text.isEmpty) {
-      // newTaskCtrl.text.;
-      return;
-    }
+  // void add() {
+  //   if (newTaskCtrl.text.isEmpty) {
+  //     // newTaskCtrl.text.;
+  //     return;
+  //   }
 
-    setState(() {
-      widget.items.add(
-        Item(
-          title: newTaskCtrl.text,
-          done: false,
-        ),
-      );
-      newTaskCtrl.clear();
-      save();
-    });
-  }
+  //   setState(() {
+  //     widget.items.add(
+  //       Item(
+  //         title: newTaskCtrl.text,
+  //         done: false,
+  //       ),
+  //     );
+  //     newTaskCtrl.clear();
+  //     save();
+  //   });
+  // }
 
-  void remove(int index) {
-    setState(() {
-      widget.items.removeAt(index);
-      save();
-    });
-  }
+  // void remove(int index) {
+  //   setState(() {
+  //     widget.items.removeAt(index);
+  //     save();
+  //   });
+  // }
 
-  Future load() async {
-    var prefs = await SharedPreferences.getInstance();
-    var data = prefs.getString('data');
+  // Future load() async {
+  //   var prefs = await SharedPreferences.getInstance();
+  //   var data = prefs.getString('data');
 
-    if (data != null) {
-      Iterable decoded = jsonDecode(data);
-      List<Item> result = decoded.map((i) => Item.fromJson(i)).toList();
+  //   if (data != null) {
+  //     Iterable decoded = jsonDecode(data);
+  //     List<Item> result = decoded.map((i) => Item.fromJson(i)).toList();
 
-      setState(() {
-        widget.items = result;
-      });
-    }
-  }
+  //     setState(() {
+  //       widget.items = result;
+  //     });
+  //   }
+  // }
 
-  save() async {
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.setString('data', jsonEncode(widget.items));
-  }
+  // save() async {
+  //   var prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('data', jsonEncode(widget.items));
+  // }
 
-  _HomePageState() {
-    load();
-  }
+  // _HomePageState() {
+  //   load();
+  // }
 
   @override
   Widget build(BuildContext context) {
