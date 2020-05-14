@@ -56,10 +56,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: ListView.builder(
-        // itemCount: widget.items.length,
         itemCount: appstate.items.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          // final item = widget.items[index];
           final item = appstate.items[index];
 
           return Dismissible(
@@ -82,7 +80,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          appstate.add(newTaskCtrl.text);
+          appstate.add(newTaskCtrl);
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.amber,
