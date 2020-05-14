@@ -1,9 +1,6 @@
-// import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'app-state.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'models/item.dart';
 
 void main() => runApp(App());
 
@@ -16,7 +13,6 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: HomePage(),
       home: ChangeNotifierProvider<AppState>(
         create: (_) => AppState(),
         child: HomePage(),
@@ -26,72 +22,20 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  // var items = new List<Item>();
-
-  // HomePage() {
-  //   items = [];
-
-  //   items.add(Item(title: "Tomar café", done: true));
-  //   items.add(Item(title: "Tomar banho", done: false));
-  // }
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  var newTaskCtrl = TextEditingController();
-
-  // void add() {
-  //   if (newTaskCtrl.text.isEmpty) {
-  //     // newTaskCtrl.text.;
-  //     return;
-  //   }
-
-  //   setState(() {
-  //     widget.items.add(
-  //       Item(
-  //         title: newTaskCtrl.text,
-  //         done: false,
-  //       ),
-  //     );
-  //     newTaskCtrl.clear();
-  //     save();
-  //   });
-  // }
-
-  // void remove(int index) {
-  //   setState(() {
-  //     widget.items.removeAt(index);
-  //     save();
-  //   });
-  // }
-
-  // Future load() async {
-  //   var prefs = await SharedPreferences.getInstance();
-  //   var data = prefs.getString('data');
-
-  //   if (data != null) {
-  //     Iterable decoded = jsonDecode(data);
-  //     List<Item> result = decoded.map((i) => Item.fromJson(i)).toList();
-
-  //     setState(() {
-  //       widget.items = result;
-  //     });
-  //   }
-  // }
-
-  // save() async {
-  //   var prefs = await SharedPreferences.getInstance();
-  //   await prefs.setString('data', jsonEncode(widget.items));
-  // }
-
-  // _HomePageState() {
-  //   appstate.load();
-  // }
+  initState() {
+    super.initState();
+    context.read<AppState>().load();
+    print("\n-- InitState --\n");
+  }
 
   @override
   Widget build(BuildContext context) {
+    final newTaskCtrl = TextEditingController();
     final appstate = Provider.of<AppState>(context);
 
     return Scaffold(
@@ -123,10 +67,7 @@ class _HomePageState extends State<HomePage> {
               title: Text(item.title),
               value: item.done,
               onChanged: (value) {
-                setState(() {
-                  item.done = value;
-                  appstate.save();
-                });
+                appstate.checkboxValue(value, index);
               },
             ),
             key: Key(item.title),
@@ -141,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          appstate.add();
+          appstate.add(newTaskCtrl.text);
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.amber,

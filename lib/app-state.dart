@@ -28,6 +28,13 @@ class AppState with ChangeNotifier {
     save();
   }
 
+  void checkboxValue(bool value, int index) {
+    items[index].done = value;
+
+    save();
+    notifyListeners();
+  }
+
   void remove(int index) {
     items.removeAt(index);
 
